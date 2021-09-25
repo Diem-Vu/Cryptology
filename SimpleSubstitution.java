@@ -1,21 +1,22 @@
 /**
- * <p>
+ * <p><
  * Q8.1) Write a program (in any language you like) to help an analyst decrypt a simple substitution cipher.
  * Your program should take the ciphertext as input, compute letter frequency counts, and display these for the analyst.
  * The program should then allow the analyst to guess a key and display the results of the corresponding "decryption" with the putative key.
- * input: GBSXUCGSZQGKGSQPKQKGLSKASPCGBGBKGUKGCEUKUZKGGBSQEICACGKGCEUERWKLKUPKQQGCIICUAEUVSHqKGCEUPCGBCGQOEVSHUNSUGKUZCGQSNLSHEHIEEDCUOGEPKHZGBSNKCUGSUKUASERLSKASCUGBSLKACRCACUZSSZEUSBEXHKRGSHWKLKUSQSKCHQTXKZHEUQBKZAENNSUASZFENFCUOCUEKBXGBSWKLKUSQSKNFKQQKZEHGEGBSXUCGSZQGKGSQKUZBCQAEIISKOXSZSICVSHSZGEGBSQSAHSGKHMERQGKGSKREHNKIHSLIMGEKHSASUGKNSHCAKUNSQQKOSPBCISGBCqHSLIMQGKGSZGBKGCGQSSNSZXQSISQQGEAEUGCUXSGBSSJCqGCUOZCLIENKGCAUSOEGCKGCEUqCGAEUGKCUSZUEGBHSKGEHBCUGERPKHEHKHNSZKGGKAD
  * <p>
  *
- * @author: Diem Vu
- * @version: 1.0
+ * @author: Thi Ngoc Diem Vu
+ * student ID: 014932645
+ * Course: CMPE166
+ * School: San Jose State University
  */
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.Set.*;
 
-public class SimpleSubstitutionExampleDecrypt {
-    // function to sort the HashMap by the decending order of values
+public class SimpleSubstitution {
+
     static LinkedHashMap<Character, Integer> sortMap(HashMap<Character, Integer> map) {
         TreeMap<Character, Integer> sorted = new TreeMap<>(map);
         Set<Entry<Character, Integer>> mappings = map.entrySet();
@@ -42,8 +43,8 @@ public class SimpleSubstitutionExampleDecrypt {
         Scanner s = new Scanner(System.in);
         //read input
         System.out.print("ciphertext: ");
-        String cipher = "GBSXUCGSZQGKGSQPKQKGLSKASPCGBGBKGUKGCEUKUZKGGBSQEICACGKGCEUERWKLKUPKQQGCIICUAEUVSHqKGCEUPCGBCGQOEVSHUNSUGKUZCGQSNLSHEHIEEDCUOGEPKHZGBSNKCUGSUKUASERLSKASCUGBSLKACRCACUZSSZEUSBEXHKRGSHWKLKUSQSKCHQTXKZHEUQBKZAENNSUASZFENFCUOCUEKBXGBSWKLKUSQSKNFKQQKZEHGEGBSXUCGSZQGKGSQKUZBCQAEIISKOXSZSICVSHSZGEGBSQSAHSGKHMERQGKGSKREHNKIHSLIMGEKHSASUGKNSHCAKUNSQQKOSPBCISGBCqHSLIMQGKGSZGBKGCGQSSNSZXQSISQQGEAEUGCUXSGBSSJCqGCUOZCLIENKGCAUSOEGCKGCEUqCGAEUGKCUSZUEGBHSKGEHBCUGERPKHEHKHNSZKGGKAD";
-        System.out.println(cipher);
+        String cipher = s.nextLine();
+        System.out.println();
         // split the string to array of chars
         char[] lettersArr = cipher.toCharArray();
         ArrayList<Character> lettersList = new ArrayList<>();
@@ -70,6 +71,8 @@ public class SimpleSubstitutionExampleDecrypt {
         //sort the hashtable
         LinkedHashMap<Character, Integer> sortedMap = sortMap(countTable);
         HashMap<Character, Integer> sortedHashedMap = new HashMap<>(sortedMap);
+        System.out.println("HashMap after sorting by values in decending order: ");
+        System.out.println(sortedMap);
 
         //create table of English frequency
         LinkedHashMap<Character, Integer> EnglishFrequency = new LinkedHashMap<Character, Integer>(26);
@@ -99,6 +102,8 @@ public class SimpleSubstitutionExampleDecrypt {
         EnglishFrequency.put('Q', 24);
         EnglishFrequency.put('J', 25);
         EnglishFrequency.put('Z', 26);
+        System.out.println("The English Frequency in decending order: ");
+        System.out.println(EnglishFrequency);
 
         //create lists of keys of each entry in sortedMap and EnglishFrequency
         List<Entry<Character, Integer>> sortedListEntry = new ArrayList<Entry<Character, Integer>>(sortedMap.entrySet());
@@ -129,57 +134,24 @@ public class SimpleSubstitutionExampleDecrypt {
         }
 
         // print key
-        System.out.println("\nThe MAP/KEY of C -> P following English Frequency: ");
+        System.out.println("The MAP/KEY to replace the letter on the left by the lefter on the right: ");
         System.out.println(newMap);
 
-        //replace the input message
+        //decrypt the input message
         ArrayList<Character> newLettersArr = new ArrayList<>();
         for (int l = 0; l < lettersList.size(); l++) {
             if (newMap.containsKey(lettersList.get(l))) {
                 newLettersArr.add(l, newMap.get(lettersList.get(l)));
             }
         }
-        //print the prediction following English Frequency
-        System.out.println("The result of message following English Frequency:");
-        for (char c : newLettersArr) {
-            System.out.print(c);
-        }
-        System.out.println('\n');
 
-        //update and print out the final key map
-        System.out.println();
-        System.out.println("The final Key Map");
-        newMap.replace('F', 'B');
-        newMap.replace('C', 'I');
-        newMap.replace('U', 'N');
-        newMap.replace('X', 'U');
-        newMap.replace('E', 'O');
-        newMap.replace('I', 'L');
-        newMap.replace('A', 'C');
-        newMap.replace('O', 'G');
-        newMap.replace('R', 'F');
-        newMap.replace('W', 'J');
-        newMap.replace('L', 'P');
-        newMap.replace('N', 'M');
-        newMap.replace('D', 'K');
-        newMap.replace('T', 'Q');
-        newMap.replace('M', 'Y');
-        newMap.replace('J', 'X');
-        System.out.println(newMap);
-
-        // decrypt the message
-        newLettersArr.clear();
-        for (int l = 0; l < lettersArr.length; l++) {
-            if (newMap.containsKey(lettersList.get(l))) {
-                newLettersArr.add(l, newMap.get(lettersList.get(l)));
-            }
-        }
-        System.out.println("The plaintext is solve: ");
-        //print the result
+        //print out the corresponding decryption with the putative key
+        System.out.println("\nThe results of the corresponding decryption with the putative key: ");
         for (char c : newLettersArr) {
             System.out.print(c);
         }
         System.out.println("\n");
+
 
     }
 }
